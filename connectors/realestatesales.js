@@ -3,6 +3,11 @@
 // US government site its content is public domain (unlike private platforms
 // whose ToS forbid scraping), so we parse the public listings page directly —
 // one polite request per refresh (~30 min).
+//
+// The plain GET page only renders page 1 (12 of 19 current auction listings);
+// the rest load via the site's own "Next" button, which POSTs to the same URL.
+// We call that endpoint directly with perpage=48 (> the real total) so every
+// current listing comes back in one request instead of guessing page counts.
 const zipcodes = require('zipcodes');
 
 const PAGE = 'https://realestatesales.gov/our-listing/';
@@ -11,9 +16,28 @@ const UA = { 'User-Agent': 'Mozilla/5.0 (GovAuctionHub local aggregator)' };
 const m1 = (s, re) => (s.match(re) || [])[1] || null;
 
 async function fetchListings() {
-  const res = await fetch(PAGE, { headers: UA });
+  const res = await fetch(PAGE, {
+    method: 'POST',
+    headers: {
+      ...UA,
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'X-Requested-With': 'XMLHttpRequest',
+    },
+    body: new URLSearchParams({
+      search: '',
+      perpage: '48',
+      page: '1',
+      listing_filter: 'auctions_listing',
+      sort_column: 'auction_start_date_asc',
+      agent_id: '',
+      filter_asset_type: '',
+      filter_auction_type: '',
+    }),
+  });
   if (!res.ok) throw new Error(`realestatesales.gov ${res.status}`);
-  const html = (await res.text()).replace(/\s+/g, ' ');
+  const { error, listing_html } = await res.json();
+  if (error) throw new Error('realestatesales.gov returned error in AJAX response');
+  const html = listing_html.replace(/\s+/g, ' ');
 
   // Each property card is a div.itemm block; split and parse fields per card.
   const cards = html.split('class="itemm"').slice(1);

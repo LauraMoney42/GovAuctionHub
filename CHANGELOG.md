@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-07-03 16:40
+- Fixed RealEstateSales.gov connector missing 7 of 19 current listings: it only GET-fetched page 1 (12 items) of the site's own paginated view instead of the same POST /our-listing/ AJAX endpoint the site's "Next" button uses; now requests perpage=48 in one call to get all current listings
+- Investigated a suspected missing-source gap (govauctions.app appeared to show more listings, e.g. GovDeals real estate): confirmed that example listing was actually a private consignor (UmmahCom LLC) auctioning land via GovDeals' marketplace, not a government agency — out of scope regardless of GovDeals' no-scraping ToS, so no connector change needed there
+- Files affected: connectors/realestatesales.js
+
 ## 2026-07-03 14:00
 - Facet counts are now context-aware (marketplace-style): category counts reflect the selected state/zip/search, state dropdown only lists states that match the other filters — eliminates "AR (39) + Real Estate (12) = 0 results" dead-ends
 - /api/meta now accepts the same filter params as /api/listings (each facet excludes its own dimension, standard faceting)

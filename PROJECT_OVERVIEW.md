@@ -14,7 +14,7 @@ The UI also has a **"↻ Refresh source data"** button (sidebar) that re-pulls a
 
 ## What it does
 
-- **Aggregates** live listings (currently ~600 from GSA Auctions — every participating federal agency) into one normalized pool, cached in `data/cache.json`.
+- **Aggregates** live listings (~600 from GSA Auctions — every participating federal agency — plus ~19 current properties from RealEstateSales.gov) into one normalized pool, cached in `data/cache.json`.
 - **Search & filter**: keyword, category (auto-derived: Vehicles, Electronics, Real Estate, Heavy Equipment, …), state, price range, auction status, and **distance from any ZIP code** (offline zip→lat/lng database).
 - **Sort**: ending soonest, price high↔low, nearest first, most bidders.
 - **Photo-forward cards** — images resolved through a local proxy (see below).
@@ -25,7 +25,9 @@ The UI also has a **"↻ Refresh source data"** button (sidebar) that re-pulls a
 ```
 connectors/          one module per data source → normalized Listing[]
   gsa.js             GSA Auctions API (api.data.gov) — DEMO_KEY or $GSA_API_KEY
-  realestatesales.js RealEstateSales.gov federal real property (public-domain .gov page; no API exists)
+  realestatesales.js RealEstateSales.gov federal real property (public-domain .gov page; no API
+                     exists, so we call the site's own AJAX pagination endpoint directly to get
+                     all current listings in one request instead of just page 1)
   index.js           registry; add new sources here
 lib/
   categorize.js      keyword rules → browse categories (title first, then description)
