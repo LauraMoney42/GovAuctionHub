@@ -59,7 +59,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 .close { position:absolute; top:10px; right:12px; z-index:10; border:none; background:var(--chip); color:var(--text); width:34px; height:34px; border-radius:50%; font-size:1rem; cursor:pointer; }
 .mgrid { display:grid; grid-template-columns:1.15fr 1fr; gap:0; }
 .mleft { padding:16px; }
-.mleft img { width:100%; border-radius:10px; background:var(--chip); min-height:200px; object-fit:contain; max-height:380px; }
+#mimg { width:100%; border-radius:10px; background:var(--chip); min-height:200px; object-fit:contain; max-height:380px; }
 #mmap { height:260px; border-radius:10px; margin-top:12px; }
 .mapactions { margin-top:10px; }
 .mapbtn { width:100%; padding:10px; border-radius:8px; border:1px solid var(--accent); background:none; color:var(--accent2); font-weight:600; cursor:pointer; }
