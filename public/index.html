@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GovAuctionHub — Government Auction Search</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏛️</text></svg>">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">🏛️ GovAuctionHub</div>
+  <div class="searchwrap">
+    <input id="search" type="search" placeholder="Search government auctions — trucks, laptops, land…">
+  </div>
+  <div class="locwrap">
+    <input id="zip" type="text" inputmode="numeric" maxlength="5" placeholder="ZIP">
+    <select id="radius">
+      <option value="">Any distance</option>
+      <option value="50">50 mi</option>
+      <option value="100">100 mi</option>
+      <option value="250" selected>250 mi</option>
+      <option value="500">500 mi</option>
+      <option value="1000">1000 mi</option>
+    </select>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="fgroup">
+      <label>Sort by</label>
+      <select id="sort">
+        <option value="ending">Ending soonest</option>
+        <option value="priceDesc">Price: high → low</option>
+        <option value="priceAsc">Price: low → high</option>
+        <option value="distance">Nearest first</option>
+        <option value="bidders">Most bidders</option>
+      </select>
+    </div>
+    <div class="fgroup">
+      <label>Price (current bid)</label>
+      <div class="pricerow">
+        <input id="min" type="number" placeholder="Min $" min="0">
+        <span>–</span>
+        <input id="max" type="number" placeholder="Max $" min="0">
+      </div>
+    </div>
+    <div class="fgroup">
+      <label>State</label>
+      <select id="state"><option value="">All states</option></select>
+    </div>
+    <div class="fgroup">
+      <label>Status</label>
+      <select id="status">
+        <option value="">All</option>
+        <option value="active">Active (biddable)</option>
+        <option value="preview">Preview (upcoming)</option>
+      </select>
+    </div>
+    <div class="fgroup">
+      <label>Category</label>
+      <div id="cats" class="cats"></div>
+    </div>
+    <div class="fgroup meta" id="meta"></div>
+    <button id="refresh" class="ghostbtn">↻ Refresh source data</button>
+  </aside>
+
+  <main>
+    <div id="resultbar" class="resultbar"></div>
+    <div id="grid" class="grid"></div>
+    <div class="loadwrap"><button id="more" class="loadmore hidden">Load more</button></div>
+  </main>
+</div>
+
+<!-- Item detail modal -->
+<div id="modal" class="modal hidden">
+  <div class="modalbox">
+    <button class="close" id="mclose">✕</button>
+    <div class="mgrid">
+      <div class="mleft">
+        <img id="mimg" alt="">
+        <div id="mmap"></div>
+        <div class="mapactions">
+          <button id="gmaps" class="mapbtn">🗺️ Route in Google Maps (from my location)</button>
+        </div>
+      </div>
+      <div class="mright">
+        <h2 id="mtitle"></h2>
+        <div id="mprice" class="mprice"></div>
+        <div id="mfacts" class="mfacts"></div>
+        <a id="mlink" target="_blank" rel="noopener" class="bidbtn">Bid on official site ↗</a>
+        <div id="mdesc" class="mdesc"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

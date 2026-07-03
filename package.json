@@ -1,0 +1,21 @@
+{
+  "name": "govauctionhub",
+  "version": "1.0.0",
+  "description": "Local aggregator + marketplace UI for US government auction listings",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "fetch": "node scripts/fetch-data.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1",
+    "zipcodes": "^8.0.0"
+  }
+}
